@@ -36,7 +36,7 @@
 		"format": "eslint . --fix",
 		"typecheck": "tsc --noEmit",
 		"prepack": "nr build",
-		"release": "nr lint && nr build && nr publint && nlx bumpp && nr release:npm && nr release:jsr",
+		"release": "nr lint && nr typecheck && nr build && nr publint && nlx bumpp && nr release:npm && nr release:jsr",
 		"release:npm": "pnpm publish",
 		"release:jsr": "pkg-to-jsr && nlx jsr publish --allow-dirty"
 	},
