@@ -27,7 +27,8 @@
 		"LICENSE",
 		"README.md",
 		"dist",
-		"package.json"
+		"package.json",
+		"src"
 	],
 	"scripts": {
 		"build": "unbuild",
