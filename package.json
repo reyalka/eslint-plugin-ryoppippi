@@ -2,7 +2,7 @@
 	"name": "eslint-plugin-ryoppippi",
 	"jsrName": "@ryoppippi/eslint-plugin",
 	"type": "module",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"packageManager": "pnpm@10.6.3",
 	"description": "",
 	"author": "",
