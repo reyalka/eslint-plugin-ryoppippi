@@ -1,6 +1,6 @@
 /** @see https://gist.github.com/azu/0dc07179f66a6471f0a0aa681709b2f5 */
 
-import type { eslint } from '../deps.ts';
+import type { Rule } from 'eslint';
 
 export const RULE_NAME = 'require-comment-on-useEffect';
 export const MESSAGE_ID = 'requireCommentOnUseEffect';
@@ -72,6 +72,6 @@ References:
 			},
 		};
 	},
-}) as const satisfies eslint.Rule.RuleModule;
+}) as const satisfies Rule.RuleModule;
 
 export default rule;

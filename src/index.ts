@@ -15,5 +15,3 @@ const plugin = {
 } as const satisfies ESLint.Plugin;
 
 export default plugin;
-
-type RuleDefinitions = typeof plugin['rules'];
