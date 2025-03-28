@@ -6,17 +6,39 @@ const valid = [
 	`'http'`,
 	`'//github.com'`,
 	`'https://github.com'`,
+	'`https://github.com`',
+	`"https://github.com"`,
 	`'&url=https://github.com'`,
 	`'http://localhost'`,
 	`'http://localhost:8080'`,
 	`'http://127.0.0.1'`,
 	`'http://127.0.0.1:30'`,
+	'`http://localhost`',
+	`"http://localhost"`,
+	'`\nhttp://localhost\n`',
+	'`my profile url is https://example.com/ryoppippi`',
 ];
 
 const invalids = [
 	[
 		`'http://github.com'`,
 		`'https://github.com'`,
+	],
+	[
+		'`http://github.com`',
+		'`https://github.com`',
+	],
+	[
+		`"http://github.com"`,
+		`"https://github.com"`,
+	],
+	[
+		'`\nhttp://github.com/ryoppippi\n`',
+		'`\nhttps://github.com/ryoppippi\n`',
+	],
+	[
+		'`my profile url is http://example.com/ryoppippi`',
+		'`my profile url is https://example.com/ryoppippi`',
 	],
 	[
 		`'&url=http://github.com'`,
