@@ -25,20 +25,40 @@ const invalids = [
 		`'https://github.com'`,
 	],
 	[
-		'`http://github.com`',
-		'`https://github.com`',
-	],
-	[
 		`"http://github.com"`,
 		`"https://github.com"`,
+	],
+	[
+		`"http://github.com http://ryoppippi.com"`,
+		`"https://github.com https://ryoppippi.com"`,
+	],
+	[
+		'`http://github.com`',
+		'`https://github.com`',
 	],
 	[
 		'`\nhttp://github.com/ryoppippi\n`',
 		'`\nhttps://github.com/ryoppippi\n`',
 	],
 	[
+		'`http://example.com/ryoppippi http://example.com/ryoppippi-2 https://example.com/ryoppippi`',
+		'`https://example.com/ryoppippi https://example.com/ryoppippi-2 https://example.com/ryoppippi`',
+	],
+	[
 		'`my profile url is http://example.com/ryoppippi`',
 		'`my profile url is https://example.com/ryoppippi`',
+	],
+	[
+		// eslint-disable-next-line no-template-curly-in-string
+		'`http://github.com/ryoppippi/${path}`',
+		// eslint-disable-next-line no-template-curly-in-string
+		'`https://github.com/ryoppippi/${path}`',
+	],
+	[
+		// eslint-disable-next-line no-template-curly-in-string
+		'`http://github.com/ryoppippi/${path}/${path2}`',
+		// eslint-disable-next-line no-template-curly-in-string
+		'`https://github.com/ryoppippi/${path}/${path2}`',
 	],
 	[
 		`'&url=http://github.com'`,

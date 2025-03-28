@@ -4,6 +4,10 @@ import { docUrl } from '../utils' with {type: 'macro'};
 export const RULE_NAME = `no-http-url`;
 export const MESSAGE_ID = `httpNotAllowed`;
 
+// Top-level regex definitions
+const URL_REGEXP = /http:\/\//gi;
+const LOCAL_REGEXP = /localhost|127\.0\.0\.1/gi;
+
 const rule = ({
 	meta: {
 		type: 'problem',
@@ -22,17 +26,13 @@ const rule = ({
 		 * Check whether the URL is HTTP and fix it to HTTPS.
 		 */
 		const checkHttpUrl = (node: Rule.Node, value: string, raw: string | null | undefined): void => {
-			const urlRegexp = /http:\/\//i;
-			// eslint-disable-next-line regexp/no-unused-capturing-group
-			const localRegexp = /(localhost|127\.0\.0\.1)/i;
-
 			if (
 				value != null
 				&& typeof value === 'string'
 				// eslint-disable-next-line ts/strict-boolean-expressions
-				&& value.match(urlRegexp)
+				&& value.match(URL_REGEXP)
 				// eslint-disable-next-line ts/strict-boolean-expressions
-				&& !value.match(localRegexp)
+				&& !value.match(LOCAL_REGEXP)
 			) {
 				context.report({
 					node,
@@ -41,7 +41,7 @@ const rule = ({
 						if (raw == null) {
 							return null;
 						}
-						const result = raw.replace(urlRegexp, 'https://');
+						const result = raw.replace(URL_REGEXP, 'https://');
 						return fixer.replaceText(node, result);
 					},
 				});
@@ -57,15 +57,26 @@ const rule = ({
 				}
 			},
 			TemplateLiteral: (node) => {
-				const quasi = node.quasis[0];
-				const value = quasi.value.cooked;
-				const raw = `\`${quasi.value.raw}\``;
+				// Handle template literals correctly, keeping all quasi and expression parts
+				const sourceCode = context.sourceCode;
+				const fullText = sourceCode.getText(node);
+				const value = node.quasis.map(q => q.value.cooked).join('');
 
-				if (value == null) {
-					return;
+				if (
+					// eslint-disable-next-line ts/strict-boolean-expressions
+					value.match(URL_REGEXP)
+					// eslint-disable-next-line ts/strict-boolean-expressions
+					&& !value.match(LOCAL_REGEXP)
+				) {
+					context.report({
+						node,
+						messageId: MESSAGE_ID,
+						fix(fixer) {
+							const newText = fullText.replace(URL_REGEXP, 'https://');
+							return fixer.replaceText(node, newText);
+						},
+					});
 				}
-
-				checkHttpUrl(node, value, raw);
 			},
 		};
 	},
