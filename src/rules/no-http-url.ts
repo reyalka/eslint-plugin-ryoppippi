@@ -5,9 +5,8 @@ export const RULE_NAME = `no-http-url`;
 export const MESSAGE_ID = `httpNotAllowed`;
 
 // Top-level regex definitions
-const URL_REGEXP = /http:\/\//i;
-// eslint-disable-next-line regexp/no-unused-capturing-group
-const LOCAL_REGEXP = /(localhost|127\.0\.0\.1)/i;
+const URL_REGEXP = /http:\/\//gi;
+const LOCAL_REGEXP = /localhost|127\.0\.0\.1/gi;
 
 const rule = ({
 	meta: {
