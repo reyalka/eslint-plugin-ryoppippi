@@ -1,5 +1,5 @@
-import { run } from './_test.ts';
-import rule, { RULE_NAME } from './no-http-url.ts';
+import { run } from './_test';
+import rule, { RULE_NAME } from './no-http-url';
 
 const valid = [
 	`'https'`,
@@ -24,7 +24,7 @@ const invalids = [
 	],
 ];
 
-run({
+await run({
 	name: RULE_NAME,
 	rule,
 	valid,

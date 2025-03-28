@@ -1,5 +1,5 @@
-import { run } from './_test.ts';
-import rule, { RULE_NAME } from './require-comment-on-useEffect.ts';
+import { run } from './_test';
+import rule, { RULE_NAME } from './require-comment-on-useEffect';
 
 const valid = [
 	`
@@ -17,7 +17,7 @@ useEffect(() => {
 }, []);`,
 ];
 
-run({
+await run({
 	name: RULE_NAME,
 	rule,
 	valid,

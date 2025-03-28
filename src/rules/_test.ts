@@ -1,25 +1,10 @@
-import { eslint } from '../deps.ts';
+import type { RuleTesterInitOptions, TestCasesOptions } from 'eslint-vitest-rule-tester';
+import tsParser from '@typescript-eslint/parser';
+import { run as _run } from 'eslint-vitest-rule-tester';
 
-const tester = new eslint.RuleTester();
-
-function run(args: {
-	valid: string[];
-	invalid: {
-		code: string;
-		output: string | null;
-		errors: { messageId: string }[];
-	}[];
-	name: string;
-	rule: eslint.Rule.RuleModule;
-}) {
-	tester.run(args.name, args.rule, {
-		valid: args.valid,
-		invalid: args.invalid?.map(i => ({
-			code: i.code,
-			output: i.output,
-			errors: i.errors,
-		})),
+export async function run(options: TestCasesOptions & RuleTesterInitOptions): Promise<void> {
+	await _run({
+		parser: tsParser,
+		...options,
 	});
 }
-
-export { run, tester };
