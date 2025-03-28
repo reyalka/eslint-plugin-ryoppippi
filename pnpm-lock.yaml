@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@types/estree':
+        specifier: ^1.0.7
+        version: 1.0.7
     devDependencies:
       '@antfu/ni':
         specifier: ^24.3.0
