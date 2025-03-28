@@ -1,14 +1,13 @@
 # eslint-plugin-ryoppippi
 
 ```ts
-import ryoppippi from '@ryoppippi/eslint-plugin'
+import ryoppippi from '@ryoppippi/eslint-plugin';
 
 export default [
-    {
-        plugins: {
-            ryoppippi
-        },
-    }
+	{
+		plugins: {
+			ryoppippi
+		},
+	}
 ];
 ```
-

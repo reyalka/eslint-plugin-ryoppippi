@@ -1,0 +1,30 @@
+{
+	"name": "eslint-plugin-ryoppippi",
+	"version": "0.1.1",
+	"packageManager": "pnpm@10.6.3",
+	"description": "",
+	"author": "",
+	"license": "MIT",
+	"funding": "https://github.com/ryoppippi",
+	"repository": "https://github.com/eslint-plugin-ryoppippi",
+	"keywords": [],
+	"scripts": {
+		"build": "unbuild",
+		"test": "vitest",
+		"lint": "eslint . ",
+		"format": "eslint . --fix"
+	},
+	"peerDependencies": {
+		"eslint": "*"
+	},
+	"devDependencies": {
+		"@antfu/ni": "^24.3.0",
+		"@ryoppippi/eslint-config": "^0.2.1",
+		"@typescript-eslint/utils": "^8.28.0",
+		"eslint": "^9.23.0",
+		"eslint-plugin-format": "^1.0.1",
+		"typescript": "^5.8.2",
+		"unbuild": "^3.5.0",
+		"vitest": "^3.0.9"
+	}
+}

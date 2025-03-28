@@ -1,0 +1,29 @@
+import { run } from './_test.ts';
+import rule, { RULE_NAME } from './require-comment-on-useEffect.ts';
+
+const valid = [
+	`
+// display log after rendering
+useEffect(() => {
+  console.log('Hello, useEffect!');
+}, []);
+`,
+];
+
+const invalids = [
+	`
+useEffect(() => {
+  console.log('Hello, useEffect!');
+}, []);`,
+];
+
+run({
+	name: RULE_NAME,
+	rule,
+	valid,
+	invalid: invalids.map(i => ({
+		code: i,
+		output: null,
+		errors: [{ messageId: 'requireCommentOnUseEffect' }],
+	})),
+});
