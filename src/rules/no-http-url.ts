@@ -18,39 +18,54 @@ const rule = ({
 		},
 	},
 	create: (context) => {
+		/**
+		 * Check whether the URL is HTTP and fix it to HTTPS.
+		 */
+		const checkHttpUrl = (node: Rule.Node, value: string, raw: string | null | undefined): void => {
+			const urlRegexp = /http:\/\//i;
+			// eslint-disable-next-line regexp/no-unused-capturing-group
+			const localRegexp = /(localhost|127\.0\.0\.1)/i;
+
+			if (
+				value != null
+				&& typeof value === 'string'
+				// eslint-disable-next-line ts/strict-boolean-expressions
+				&& value.match(urlRegexp)
+				// eslint-disable-next-line ts/strict-boolean-expressions
+				&& !value.match(localRegexp)
+			) {
+				context.report({
+					node,
+					messageId: MESSAGE_ID,
+					fix(fixer) {
+						if (raw == null) {
+							return null;
+						}
+						const result = raw.replace(urlRegexp, 'https://');
+						return fixer.replaceText(node, result);
+					},
+				});
+			}
+		};
+
 		return {
 			Literal: (node) => {
 				const token = context.sourceCode.getFirstToken(node);
 
-				if (token != null && token.type === 'String') {
-					/* check string */
-					const urlRegexp = /http:\/\//i;
-					// eslint-disable-next-line regexp/no-unused-capturing-group
-					const localRegexp = /(localhost|127\.0\.0\.1)/i;
-					const nodeValue = node.value;
-
-					if (
-						nodeValue != null
-						&& typeof nodeValue === 'string'
-						// eslint-disable-next-line ts/strict-boolean-expressions
-						&& nodeValue.match(urlRegexp)
-						// eslint-disable-next-line ts/strict-boolean-expressions
-						&& !nodeValue.match(localRegexp)
-					) {
-						/* check url */
-						context.report({
-							node,
-							messageId: MESSAGE_ID,
-							fix(fixer) {
-								if (node.raw == null) {
-									return null;
-								}
-								const result = node.raw?.replace(urlRegexp, 'https://');
-								return fixer.replaceText(node, result);
-							},
-						});
-					}
+				if (token != null && token.type === 'String' && typeof node.value === 'string') {
+					checkHttpUrl(node, node.value, node.raw);
 				}
+			},
+			TemplateLiteral: (node) => {
+				const quasi = node.quasis[0];
+				const value = quasi.value.cooked;
+				const raw = `\`${quasi.value.raw}\``;
+
+				if (value == null) {
+					return;
+				}
+
+				checkHttpUrl(node, value, raw);
 			},
 		};
 	},
