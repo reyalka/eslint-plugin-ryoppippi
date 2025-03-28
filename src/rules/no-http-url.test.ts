@@ -41,6 +41,18 @@ const invalids = [
 		'`my profile url is https://example.com/ryoppippi`',
 	],
 	[
+		// eslint-disable-next-line no-template-curly-in-string
+		'`http://github.com/ryoppippi/${path}`',
+		// eslint-disable-next-line no-template-curly-in-string
+		'`https://github.com/ryoppippi/${path}`',
+	],
+	[
+		// eslint-disable-next-line no-template-curly-in-string
+		'`http://github.com/ryoppippi/${path}/${path2}`',
+		// eslint-disable-next-line no-template-curly-in-string
+		'`https://github.com/ryoppippi/${path}/${path2}`',
+	],
+	[
 		`'&url=http://github.com'`,
 		`'&url=https://github.com'`,
 	],
