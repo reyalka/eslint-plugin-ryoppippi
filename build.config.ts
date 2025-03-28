@@ -9,4 +9,7 @@ export default defineBuildConfig({
 	externals: [
 		'@typescript-eslint/utils',
 	],
+	rollup: {
+		inlineDependencies: true,
+	},
 });

@@ -1,5 +1,6 @@
 {
 	"name": "eslint-plugin-ryoppippi",
+	"jsrName": "@ryoppippi/eslint-plugin",
 	"version": "0.1.1",
 	"packageManager": "pnpm@10.6.3",
 	"description": "",
@@ -7,13 +8,45 @@
 	"license": "MIT",
 	"funding": "https://github.com/ryoppippi",
 	"repository": "https://github.com/eslint-plugin-ryoppippi",
-	"keywords": [],
+	"keywords": [
+		"eslint",
+		"eslint-plugin",
+		"ryoppippi"
+	],
+	"sideEffects": false,
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"jsr": "./src/index.ts",
+			"import": "./dist/index.mjs"
+		},
+		"./package.json": "./package.json"
+	},
 	"scripts": {
 		"build": "unbuild",
+		"dev": "unbuild --stub",
 		"test": "vitest",
-		"lint": "eslint . ",
-		"format": "eslint . --fix"
+		"lint": "pnpm /^lint:/",
+		"lint:eslintrc": "eslint .",
+		"lint:publint": "nr dev && publint",
+		"format": "eslint . --fix",
+		"typecheck": "tsc --noEmit",
+		"prepack": "build",
+		"release": "nr lint && nlx bumpp && nr release:npm && nr release:jsr",
+		"release:npm": "pnpm publish",
+		"release:jsr": "pkg-to-jsr && nlx jsr publish --allow-dirty"
 	},
+	"files": [
+		"dist",
+		"package.json",
+		"README.md",
+		"LICENSE"
+	],
+	"jsrExclude": [
+		"dist",
+		"node_modules",
+		".github"
+	],
 	"peerDependencies": {
 		"eslint": "*"
 	},
@@ -21,10 +54,13 @@
 		"@antfu/ni": "^24.3.0",
 		"@ryoppippi/eslint-config": "^0.2.1",
 		"@typescript-eslint/parser": "^8.28.0",
+		"@typescript-eslint/typescript-estree": "^8.28.0",
 		"@typescript-eslint/utils": "^8.28.0",
 		"eslint": "^9.23.0",
 		"eslint-plugin-format": "^1.0.1",
 		"eslint-vitest-rule-tester": "^2.2.0",
+		"pkg-to-jsr": "^1.3.7",
+		"publint": "^0.3.9",
 		"typescript": "^5.8.2",
 		"unbuild": "^3.5.0",
 		"vitest": "^3.0.9"
