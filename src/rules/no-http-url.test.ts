@@ -17,6 +17,11 @@ const valid = [
 	`"http://localhost"`,
 	'`\nhttp://localhost\n`',
 	'`my profile url is https://example.com/ryoppippi`',
+	// Test with custom allowedOrigins
+	{
+		code: `'http://custom.com'`,
+		options: [{ allowedOrigins: ['custom.com'] }],
+	},
 ];
 
 const invalids = [
@@ -64,6 +69,12 @@ const invalids = [
 		`'&url=http://github.com'`,
 		`'&url=https://github.com'`,
 	],
+	// Test with custom allowedOrigins
+	[
+		`'http://notallowed.com'`,
+		`'https://notallowed.com'`,
+		[{ allowedOrigins: ['custom.com'] }],
+	],
 ];
 
 await run({
@@ -73,6 +84,7 @@ await run({
 	invalid: invalids.map(i => ({
 		code: i[0],
 		output: i[1],
+		options: i[2],
 		errors: [{ messageId: 'httpNotAllowed' }],
 	})),
 });
