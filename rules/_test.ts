@@ -4,7 +4,11 @@ const tester = new eslint.RuleTester();
 
 function run(args: {
   valid: string[];
-  invalid: { code: string; output: string; errors: { messageId: string }[] }[];
+  invalid: {
+    code: string;
+    output: string | null;
+    errors: { messageId: string }[];
+  }[];
   name: string;
   rule: eslint.Rule.RuleModule;
 }) {

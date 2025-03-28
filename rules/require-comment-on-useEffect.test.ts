@@ -14,8 +14,7 @@ const invalids = [
   `
 useEffect(() => {
   console.log('Hello, useEffect!');
-}, []);
-`,
+}, []);`,
 ];
 
 run({
@@ -24,7 +23,7 @@ run({
   valid,
   invalid: invalids.map((i) => ({
     code: i,
-    output: i,
+    output: null,
     errors: [{ messageId: "requireCommentOnUseEffect" }],
   })),
 });
