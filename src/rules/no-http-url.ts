@@ -1,4 +1,5 @@
 import type { Rule } from 'eslint';
+import { docUrl } from '../utils' with {type: 'macro'};
 
 export const RULE_NAME = `no-http-url`;
 export const MESSAGE_ID = `httpNotAllowed`;
@@ -8,6 +9,7 @@ const rule = ({
 		type: 'problem',
 		docs: {
 			description: 'disallow http url',
+			url: docUrl('no-http-url'),
 		},
 		fixable: 'code',
 		schema: [],

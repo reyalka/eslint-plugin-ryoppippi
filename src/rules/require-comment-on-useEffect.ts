@@ -1,6 +1,7 @@
 /** @see https://gist.github.com/azu/0dc07179f66a6471f0a0aa681709b2f5 */
 
 import type { Rule } from 'eslint';
+import { docUrl } from '../utils' with {type: 'macro'};
 
 export const RULE_NAME = 'require-comment-on-useEffect';
 export const MESSAGE_ID = 'requireCommentOnUseEffect';
@@ -10,6 +11,7 @@ const rule = ({
 		type: 'suggestion',
 		docs: {
 			description: 'Comments are required for useEffect.',
+			url: docUrl('require-comment-on-useEffect'),
 		},
 		schema: [],
 		messages: {
