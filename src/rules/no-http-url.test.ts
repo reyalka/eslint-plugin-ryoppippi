@@ -17,62 +17,80 @@ const valid = [
 	`"http://localhost"`,
 	'`\nhttp://localhost\n`',
 	'`my profile url is https://example.com/ryoppippi`',
+	// Test with custom allowedOrigins
+	{
+		code: `'http://custom.com'`,
+		options: [{ allowedOrigins: ['custom.com'] }],
+	},
 ];
 
-const invalids = [
-	[
-		`'http://github.com'`,
-		`'https://github.com'`,
-	],
-	[
-		`"http://github.com"`,
-		`"https://github.com"`,
-	],
-	[
-		`"http://github.com http://ryoppippi.com"`,
-		`"https://github.com https://ryoppippi.com"`,
-	],
-	[
-		'`http://github.com`',
-		'`https://github.com`',
-	],
-	[
-		'`\nhttp://github.com/ryoppippi\n`',
-		'`\nhttps://github.com/ryoppippi\n`',
-	],
-	[
-		'`http://example.com/ryoppippi http://example.com/ryoppippi-2 https://example.com/ryoppippi`',
-		'`https://example.com/ryoppippi https://example.com/ryoppippi-2 https://example.com/ryoppippi`',
-	],
-	[
-		'`my profile url is http://example.com/ryoppippi`',
-		'`my profile url is https://example.com/ryoppippi`',
-	],
-	[
+const invalid = [
+	{
+		code: `'http://github.com'`,
+		output: `'https://github.com'`,
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
+		code: `"http://github.com"`,
+		output: `"https://github.com"`,
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
+		code: `"http://github.com http://ryoppippi.com"`,
+		output: `"https://github.com https://ryoppippi.com"`,
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
+		code: '`http://github.com`',
+		output: '`https://github.com`',
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
+		code: '`\nhttp://github.com/ryoppippi\n`',
+		output: '`\nhttps://github.com/ryoppippi\n`',
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
+		code: '`http://example.com/ryoppippi http://example.com/ryoppippi-2 https://example.com/ryoppippi`',
+		output: '`https://example.com/ryoppippi https://example.com/ryoppippi-2 https://example.com/ryoppippi`',
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
+		code: '`my profile url is http://example.com/ryoppippi`',
+		output: '`my profile url is https://example.com/ryoppippi`',
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
 		// eslint-disable-next-line no-template-curly-in-string
-		'`http://github.com/ryoppippi/${path}`',
+		code: '`http://github.com/ryoppippi/${path}`',
 		// eslint-disable-next-line no-template-curly-in-string
-		'`https://github.com/ryoppippi/${path}`',
-	],
-	[
+		output: '`https://github.com/ryoppippi/${path}`',
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
 		// eslint-disable-next-line no-template-curly-in-string
-		'`http://github.com/ryoppippi/${path}/${path2}`',
+		code: '`http://github.com/ryoppippi/${path}/${path2}`',
 		// eslint-disable-next-line no-template-curly-in-string
-		'`https://github.com/ryoppippi/${path}/${path2}`',
-	],
-	[
-		`'&url=http://github.com'`,
-		`'&url=https://github.com'`,
-	],
+		output: '`https://github.com/ryoppippi/${path}/${path2}`',
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	{
+		code: `'&url=http://github.com'`,
+		output: `'&url=https://github.com'`,
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
+	// Test with custom allowedOrigins
+	{
+		code: `'http://notallowed.com'`,
+		output: `'https://notallowed.com'`,
+		options: [{ allowedOrigins: ['custom.com'] }],
+		errors: [{ messageId: 'httpNotAllowed' }],
+	},
 ];
 
 await run({
 	name: RULE_NAME,
 	rule,
 	valid,
-	invalid: invalids.map(i => ({
-		code: i[0],
-		output: i[1],
-		errors: [{ messageId: 'httpNotAllowed' }],
-	})),
+	invalid,
 });

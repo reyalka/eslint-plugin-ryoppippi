@@ -4,9 +4,13 @@ import { docUrl } from '../utils' with {type: 'macro'};
 export const RULE_NAME = `no-http-url`;
 export const MESSAGE_ID = `httpNotAllowed`;
 
+/**
+ * Default allowed origins for HTTP URLs.
+ */
+const DEFAULT_ALLOWED_ORIGIN = ['localhost', '127.0.0.1'] as const;
+
 // Top-level regex definitions
 const URL_REGEXP = /http:\/\//gi;
-const LOCAL_REGEXP = /localhost|127\.0\.0\.1/gi;
 
 const rule = ({
 	meta: {
@@ -15,13 +19,31 @@ const rule = ({
 			description: 'disallow http url',
 			url: docUrl('no-http-url'),
 		},
+		schema: [
+			{
+				type: 'object',
+				properties: {
+					allowedOrigins: {
+						type: 'array',
+						items: {
+							type: 'string',
+						},
+						default: DEFAULT_ALLOWED_ORIGIN,
+					},
+				},
+				additionalProperties: false,
+			},
+		],
 		fixable: 'code',
-		schema: [],
 		messages: {
 			[MESSAGE_ID]: 'HTTP is not safe enough. use HTTPS.',
 		},
 	},
 	create: (context) => {
+		const options = (context.options.at(0) ?? {}) as { allowedOrigins?: readonly string[] };
+		const allowedOrigins = options?.allowedOrigins ?? DEFAULT_ALLOWED_ORIGIN;
+		const LOCAL_REGEXP = new RegExp(allowedOrigins.join('|'), 'gi');
+
 		/**
 		 * Check whether the URL is HTTP and fix it to HTTPS.
 		 */
