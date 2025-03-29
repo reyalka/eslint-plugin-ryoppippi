@@ -25,7 +25,7 @@ This rule accepts an optional configuration object with an `allowedOrigins` arra
 ### Example
 
 ```ts
-/* eslint no-http-url: ["error", { "allowedOrigins": ["custom.com"] }] */
+// eslint no-http-url: ["error", { "allowedOrigins": ["custom.com"] }]
 
 'http://custom.com'; // 👍 ok
 

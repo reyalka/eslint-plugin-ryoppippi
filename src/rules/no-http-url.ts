@@ -40,8 +40,8 @@ const rule = ({
 		},
 	},
 	create: (context) => {
-		const options = context.options[0] || {};
-		const allowedOrigins = options.allowedOrigins || DEFAULT_ALLOWED_ORIGIN;
+		const options = (context.options.at(0) ?? {}) as { allowedOrigins?: readonly string[] };
+		const allowedOrigins = options?.allowedOrigins ?? DEFAULT_ALLOWED_ORIGIN;
 		const LOCAL_REGEXP = new RegExp(allowedOrigins.join('|'), 'gi');
 
 		/**
